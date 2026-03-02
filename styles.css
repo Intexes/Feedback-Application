@@ -42,7 +42,6 @@
     align-items: center;
     justify-content: center;
     align-self: center;
-    margin-right: -930px;
     border-radius: 16px;
     box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1);
     height: 59px;
@@ -69,7 +68,7 @@
   margin-top: 0px;
   margin-left: 20px;
   rotate: 145deg;
-  width: 1px;
+  width: 2.5px;
   height: 15px;
   background-color: black;
 }
