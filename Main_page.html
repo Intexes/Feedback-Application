@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Main_page.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <title>Feedbacked | Главная страница</title>
+</head>
+<body class="Main_part">
+    <section class="Upside_line">
+
+        <div class="Upside_line_logo">
+        <a class="Upside_line_logo_cont">
+            <img class="Upside_line_logo_image" src="/Feedback Application/Objects/Наименование-черное.png" alt="Логотип">
+        </a>
+        </div>
+
+        <div class="Upside_line_slogan">
+            <h1 class="Upside_line_slogan_text_up">FEEDBACKET</h1>
+        </div>
+
+        <div class="Searching_menu">
+            <button class="Searching_menu_button" id="searchBtn">
+                <div class="Searching_menu_circle_part"></div>
+                <div class="Searching_menu_stick_part"></div>
+            </button>
+        </div>
+
+        <div class="Upside_line_menu">
+        <button class="Upside_line_menu_button" id="menuBtn">
+            <span></span> 
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="menu-dropdown" id="menuDropdown">
+            <li><a href="#">Все отзывы</a></li>
+            <li><a href="#">Настройки приложения</a></li>
+             <li><a href="#">Выход</a></li>
+        </ul>
+        </div>
+    </section>
+
+    <section class="news-slider">
+    <div class="slider-wrapper">
+        <div class="slide active">
+            <div class="slide-bg" style="background-image: linear-gradient(to top, rgba(0,0,0,0.9), transparent), url('/Feedback Application/Objects/News_1.jpg');"></div>
+    
+            <div class="slide-content">
+                <span class="badge">Новости Приложения</span>
+                <h2>FEEDBACKET внедряет новые алгоритмы анализа тональности</h2>
+                <p>Теперь система еще точнее определяет эмоции гостей в отзывах.</p>
+                <a href="#" class="read-more">Читать далее</a>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-bg" style="background-image: linear-gradient(to top, rgba(0,0,0,0.9), transparent), url('/Feedback Application/Objects/News_2.jpg');"></div>
+
+            <div class="slide-content">
+                <span class="badge">Отели</span>
+                <h2>Топ-10 гостиниц, использующих автоответы</h2>
+                <p>Узнайте, как автоматизация помогла поднять рейтинг на 0.5 балла.</p>
+                <a href="#" class="read-more">Читать далее</a>
+            </div>
+        </div>
+
+        <div class="timer-line">
+            <div class="timer-progress"></div>
+        </div>
+        
+        <button class="nav-btn prev" id="prevSlide">&#10229;</button>
+        <button class="nav-btn next" id="nextSlide">&#10230;</button>
+    </div>
+</section>
+<script src="Logic.js"></script>
+</body>
+</html>
