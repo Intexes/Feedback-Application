@@ -9,72 +9,103 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <title>Feedbacked | Главная страница</title>
 </head>
+
 <body class="Main_part">
+
     <section class="Upside_line">
 
         <div class="Upside_line_logo">
-        <a class="Upside_line_logo_cont">
-            <img class="Upside_line_logo_image" src="all_styles/logo-black.png" alt="Логотип">
-        </a>
+            <a class="Upside_line_logo_cont">
+                <img class="Upside_line_logo_image" src="all_styles/logo-white.png" alt="Логотип">
+            </a>
         </div>
 
-        <div class="Upside_line_slogan">
-            <h1 class="Upside_line_slogan_text_up">FEEDBACKET</h1>
+        <div class="Upside_menu">
+
+            <div class="Other_menu">
+
+                <div class="Language_menu">
+                    <div class="Languge_menu_icon">
+                        <div class="Languge_menu_icon_circle"></div>
+                        <div class="Languge_menu_icon_line_1"></div>
+                        <div class="Languge_menu_icon_line_2"></div>
+                    </div>
+                </div>
+
+                <div class="Theme_menu">
+                    <div class="Theme_menu_icon">
+                        <div class="Theme_menu_icon_halfmoon"></div>
+                    </div>
+                </div>
+
+            </div>
+    
+            <div class="Searching_menu">
+                <button class="Searching_menu_button" id="searchBtn">
+                    <div class="Searching_menu_circle_part"></div>
+                    <div class="Searching_menu_stick_part"></div>
+                </button>
+            </div>
+
+            <div class="Upside_line_menu">
+                <button class="Upside_line_menu_button" id="menuBtn">
+                    <span></span> 
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <ul class="menu-dropdown" id="menuDropdown">
+                    <li><a href="#">Все отзывы</a></li>
+                    <li><a href="#">Настройки приложения</a></li>
+                    <li><a href="#">Выход</a></li>
+                </ul>
+            </div>
+
         </div>
 
-        <div class="Searching_menu">
-            <button class="Searching_menu_button" id="searchBtn">
-                <div class="Searching_menu_circle_part"></div>
-                <div class="Searching_menu_stick_part"></div>
-            </button>
-        </div>
-
-        <div class="Upside_line_menu">
-        <button class="Upside_line_menu_button" id="menuBtn">
-            <span></span> 
-            <span></span>
-            <span></span>
-        </button>
-        <ul class="menu-dropdown" id="menuDropdown">
-            <li><a href="#">Все отзывы</a></li>
-            <li><a href="#">Настройки приложения</a></li>
-             <li><a href="#">Выход</a></li>
-        </ul>
-        </div>
     </section>
 
     <section class="news-slider">
-    <div class="slider-wrapper">
-        <div class="slide active">
-            <div class="slide-bg" style="background-image: linear-gradient(to top, rgba(0,0,0,0.9), transparent), url('all_styles/News_1.jpg');"></div>
+
+        <div class="slider-wrapper">
+
+            <div class="slide active">
+                <div class="slide-bg" style="background-image: linear-gradient(to top, rgba(0,0,0,0.9), transparent), url('all_styles/News_1.jpg');"></div>
     
-            <div class="slide-content">
-                <span class="badge">Новости Приложения</span>
-                <h2>FEEDBACKET внедряет новые алгоритмы анализа тональности</h2>
-                <p>Теперь система еще точнее определяет эмоции гостей в отзывах.</p>
-                <a href="#" class="read-more">Читать далее</a>
+                <div class="slide-content">
+                    <span class="badge">Новости Приложения</span>
+                    <h2>FEEDBACKET внедряет новые алгоритмы анализа тональности</h2>
+                    <p>Теперь система еще точнее определяет эмоции гостей в отзывах.</p>
+                    <a href="#" class="read-more">Читать далее</a>
+                </div>
+
             </div>
-        </div>
 
-        <div class="slide">
-            <div class="slide-bg" style="background-image: linear-gradient(to top, rgba(0,0,0,0.9), transparent), url('all_styles/News_2.jpg');"></div>
+            <div class="slide">
 
-            <div class="slide-content">
-                <span class="badge">Отели</span>
-                <h2>Топ-10 гостиниц, использующих автоответы</h2>
-                <p>Узнайте, как автоматизация помогла поднять рейтинг на 0.7 балла.</p>
-                <a href="#" class="read-more">Читать далее</a>
+                <div class="slide-bg" style="background-image: linear-gradient(to top, rgba(0,0,0,0.9), transparent), url('all_styles/News_2.jpg');"></div>
+
+                <div class="slide-content">
+                    <span class="badge">Отели</span>
+                    <h2>Топ-10 гостиниц, использующих автоответы</h2>
+                    <p>Узнайте, как автоматизация помогла поднять рейтинг на 0.7 балла.</p>
+                    <a href="#" class="read-more">Читать далее</a>
+                </div>
+
             </div>
-        </div>
 
-        <div class="timer-line">
-            <div class="timer-progress"></div>
-        </div>
+            <div class="timer-line">
+                <div class="timer-progress"></div>
+            </div>
         
-        <button class="nav-btn prev" id="prevSlide">&#10229;</button>
-        <button class="nav-btn next" id="nextSlide">&#10230;</button>
-    </div>
-</section>
-<script src="logic.js"></script>
+            <button class="nav-btn prev" id="prevSlide">&#10229;</button>
+            <button class="nav-btn next" id="nextSlide">&#10230;</button>
+
+        </div>
+
+    </section>
+
+    <script src="logic.js"></script>
+
 </body>
 </html>

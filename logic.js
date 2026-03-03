@@ -41,7 +41,7 @@ function moveNext() {
 
 function startTimer() {
     clearInterval(slideInterval);
-    slideInterval = setInterval(moveNext, 10000); // 10 секунд
+    slideInterval = setInterval(moveNext, 10000);
 }
 
 nextBtn.addEventListener('click', () => {

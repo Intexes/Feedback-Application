@@ -2,47 +2,34 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: flex-start;
-    padding: 0 20px;
-    background: linear-gradient(135deg, rgba(156, 219, 255, 0.3), rgba(67, 180, 224, 0.3), rgba(67, 180, 224, 0.3), rgba(156, 219, 255, 0.3));
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
     width: 100%;
-    height: 100px;
-    border-radius: 25px;
+    height: 120px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     box-sizing: border-box;
-    margin-top: 20px;
-    overflow: hidden;
-    position: relative;
+    position: sticky;
+    z-index: 1000;
+    padding: 0px 30px;
 }
 
-.Upside_line_slogan {
-    flex-grow: 1;
+.Upside_menu {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
-    text-transform: capitalize;
-    color: rgba(20, 20, 20, 0.95);
+    flex-direction: row;
 }
 
 .Upside_line_logo_image {
-    height: 200px;
-    width: auto;
-    margin-left: 20px;
-    margin-top: 0;
-    display: block;
-}
-
-.Upside_line_slogan {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
     height: 120px;
-    cursor: default;
+    width: auto;
+    transition: transform 0.7s ease;
 }
 
 .Main_part {
-    background-color: rgba(156, 219, 255, 1);
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
+    min-height: 100vh;
 }
 
 .Searching_menu {
@@ -69,7 +56,7 @@
   border-radius: 50%;
   width: 20px;
   height: 20px;
-  border: 2.5px solid rgba(20, 20, 20, 0.95);
+  border: 2.5px solid #fff;
 }
 
 .Searching_menu_stick_part {
@@ -78,7 +65,7 @@
   rotate: 145deg;
   width: 2px;
   height: 15px;
-  background-color: black;
+  background-color: #fff;
 }
 
 .Upside_line_menu {
@@ -107,8 +94,8 @@
   display: block;
   width: 30px;
   height: 3px;
-  background-color: rgba(20, 20, 20, 0.95);
-  border-radius: 70px;
+  background-color: #fff;
+  border-radius: 16px;
 }
 
 .menu-dropdown {
@@ -148,7 +135,9 @@
 .slider-wrapper {
     position: relative;
     width: 100%;
-    height: 700px;
+    height: 600px;
+    margin-top: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     background: #222;
     border-radius: 25px;
     overflow: hidden;
@@ -203,7 +192,9 @@
     text-transform: uppercase;
 }
 
-.slide-content h2 { font-size: 36px; margin: 15px 0; }
+.slide-content h2 { 
+    font-size: 36px; margin: 15px 0; 
+}
 
 .read-more {
     display: inline-block;
@@ -231,10 +222,14 @@
     backdrop-filter: blur(5px);
 }
 
-.prev { left: 20px;
-        top: 50px; }
-.next { right: 20px; 
-        top: 50px;}
+.prev { 
+    left: 20px;
+    top: 50px; 
+    }
+.next { 
+    right: 20px; 
+    top: 50px;
+    }
 
 .timer-line {
     position: absolute;
@@ -249,5 +244,5 @@
 .timer-progress {
     width: 0%;
     height: 100%;
-    background: #ffffff;
+    background: #43b4e0;
 }
