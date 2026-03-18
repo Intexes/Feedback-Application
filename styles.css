@@ -15,14 +15,95 @@
 }
 
 .Upside_menu {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: auto auto auto; 
+    align-items: center;
 }
 
 .Upside_line_logo_image {
     height: 120px;
     width: auto;
     transition: transform 0.7s ease;
+}
+
+.Other_menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-right: 10px;
+}
+
+.Language_menu, .Theme_menu {
+    height: 26px;
+    width: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 25%;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1);
+}
+
+.Languge_menu_icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; 
+    width: 24px;
+    height: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.Theme_menu_icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; 
+    width: 24px;
+    height: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.Theme_menu_icon_halfmoon {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: transparent;
+    margin-top: -6px;
+    margin-right: -8px;
+    box-shadow: 4px 2px 0 0 #fff; 
+    transform: rotate(125deg);
+}
+
+.Languge_menu_icon_circle {
+    position: absolute;
+    border: 2px solid #fff;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+.Languge_menu_icon_line_1,
+.Languge_menu_icon_line_2 {
+    position: absolute;
+    border: 1.5px solid #fff;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+.Languge_menu_icon_line_1 {
+    width: 8px;
+    height: 16px;
+}
+
+.Languge_menu_icon_line_2 {
+    width: 16px;
+    height: 8px;
 }
 
 .Main_part {
@@ -37,7 +118,7 @@
     align-items: center;
     justify-content: center;
     margin-right: 15px; 
-    border-radius: 16px;
+    border-radius: 25%;
     box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1);
     height: 59px;
     width: 59px;
@@ -129,7 +210,7 @@
 .news-slider {
     display: flex;
     justify-content: center;
-    margin: 30px 10px;
+    margin: 30px 60px;
 }
 
 .slider-wrapper {
@@ -193,7 +274,8 @@
 }
 
 .slide-content h2 { 
-    font-size: 36px; margin: 15px 0; 
+    font-size: 36px; 
+    margin: 15px 0; 
 }
 
 .read-more {
