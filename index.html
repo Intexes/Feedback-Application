@@ -7,105 +7,139 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-    <title>Feedbacked | Главная страница</title>
+    <title>Feedbacket | Главная</title>
 </head>
-
 <body class="Main_part">
 
-    <section class="Upside_line">
-
-        <div class="Upside_line_logo">
-            <a class="Upside_line_logo_cont">
-                <img class="Upside_line_logo_image" src="all_styles/logo-white.png" alt="Логотип">
-            </a>
+    <div class="sidebar" id="sidebarMenu">
+        <div class="sidebar-header">
+            <span class="sidebar-title" data-en="Navigation" data-ru="Навигация">Навигация</span>
+            <button class="close-sidebar-btn" id="closeSidebar">&times;</button>
         </div>
+        <ul class="sidebar-links">
+            <li><a href="index.html" class="active" data-en="Home" data-ru="Главная">Главная</a></li>
+            <li><a href="workspace.html" data-en="Manager Workspace" data-ru="Рабочее окно менеджера">Рабочее окно менеджера</a></li>
+            <li><a href="account.html" data-en="Manager Account" data-ru="Аккаунт менеджера">Аккаунт менеджера</a></li>
+            <li><a href="settings.html" data-en="Application Settings" data-ru="Настройки приложения">Настройки приложения</a></li>
+            <li class="sidebar-divider"></li>
+            <li><a href="#" class="logout-link" data-en="Logout" data-ru="Выход">Выход</a></li>
+        </ul>
+    </div>
 
-        <div class="Upside_menu">
-
-            <div class="Other_menu">
-
-                <div class="Language_menu">
-                    <button class="Languge_menu_icon" id="LangBtn">
-                        <div class="Languge_menu_icon_circle"></div>
-                        <div class="Languge_menu_icon_line_1"></div>
-                        <div class="Languge_menu_icon_line_2"></div>
+    <div class="main-content-wrapper" id="contentWrapper">
+        <section class="Upside_line">
+            <div class="Upside_line_logo">
+                <a href="index.html">
+                    <img class="Upside_line_logo_image" id="logoImg" src="all_styles/logo-white.png" alt="Логотип">
+                </a>
+            </div>
+            <div class="Search_container" id="searchContainer">
+                <input type="text" class="Search_input" id="searchInput" placeholder="Поиск на главной...">
+            </div>
+            <div class="Upside_menu">
+                <div class="Other_menu">
+                    <div class="Language_menu"><button class="Languge_menu_icon" id="LangBtn"><span class="lang-text">RU</span></button></div>
+                    <div class="Theme_menu">
+                        <button class="Theme_menu_icon" id="ThemBtn" title="Изменить тему">
+                            <span id="themeIcon" style="display: flex; align-items: center; justify-content: center; width: 20px; height: 20px;"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="Searching_menu">
+                    <button class="Searching_menu_button" id="searchBtn">
+                        <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
                     </button>
                 </div>
+                <div class="Upside_line_menu"><button class="Upside_line_menu_button" id="menuBtn"><span></span><span></span><span></span></button></div>
+            </div>
+        </section>
 
-                <div class="Theme_menu">
-                    <button class="Theme_menu_icon" id="ThemBtn">
-                        <div class="Theme_menu_icon_halfmoon"></div>
-                    </button>
+        <section class="dashboard-grid">
+            <div class="dashboard-split">
+                <div class="news-slider-container">
+                    <div class="slide">
+                        <div class="slide-bg" style="background-image: linear-gradient(to top, rgba(0,0,0,0.85), transparent), url('all_styles/News_1.jpg');"></div>
+                        <div class="slide-content">
+                            <span class="badge" data-en="System News" data-ru="Новости Приложения">Новости Приложения</span>
+                            <h2 data-en="FEEDBACKET integrates tone detection models" data-ru="FEEDBACKET внедряет новые алгоритмы анализа тональности">FEEDBACKET внедряет новые алгоритмы анализа тональности</h2>
+                            <p data-en="Semantic parsing algorithms are now extra accurate." data-ru="Теперь система еще точнее определяет эмоции гостей в отзывах.">Теперь система еще точнее определяет эмоции гостей в отзывах.</p>
+                            <a href="#" class="read-more" data-en="Read info" data-ru="Читать далее">Читать далее</a>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <div class="slide-bg" style="background-image: linear-gradient(to top, rgba(0,0,0,0.85), transparent), url('all_styles/News_2.jpg');"></div>
+                        <div class="slide-content">
+                            <span class="badge" data-en="Hotels Case Study" data-ru="Отели">Отели</span>
+                            <h2 data-en="Top-10 Hotels implementing auto-replies" data-ru="Топ-10 гостиниц, использующих автоответы">Топ-10 гостиниц, использующих автоответы</h2>
+                            <p data-en="Find out how prompt automation raised ratings by 0.7 points." data-ru="Узнайте, как автоматизация помогла поднять рейтинг на 0.7 балла.">Узнайте, как автоматизация помогла поднять рейтинг на 0.7 балла.</p>
+                            <a href="#" class="read-more" data-en="Explore metrics" data-ru="Читать далее">Читать далее</a>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <div class="slide-bg" style="background-image: linear-gradient(to top, rgba(0,0,0,0.85), transparent), url('all_styles/News_3.jpg');"></div>
+                        <div class="slide-content">
+                            <span class="badge" data-en="Update 1.4" data-ru="Обновление 1.4">Обновление 1.4</span>
+                            <h2 data-en="ruGPT-3 fine-tuning completed" data-ru="Тонкая настройка ruGPT-3 завершена">Тонкая настройка ruGPT-3 завершена</h2>
+                            <p data-en="Model vocabulary adapted to specific hotel terminology." data-ru="Словарь модели адаптирован под специфику гостиничной терминологии.">Словарь модели адаптирован под специфику гостиничной терминологии.</p>
+                            <a href="#" class="read-more" data-en="See changes" data-ru="Читать далее">Читать далее</a>
+                        </div>
+                    </div>
+                    <div class="timer-line"><div class="timer-progress"></div></div>
                 </div>
 
-            </div>
-    
-            <div class="Searching_menu">
-                <button class="Searching_menu_button" id="searchBtn">
-                    <div class="Searching_menu_circle_part"></div>
-                    <div class="Searching_menu_stick_part"></div>
-                </button>
-            </div>
-
-            <div class="Upside_line_menu">
-                <button class="Upside_line_menu_button" id="menuBtn">
-                    <span></span> 
-                    <span></span>
-                    <span></span>
-                </button>
-
-                <ul class="menu-dropdown" id="menuDropdown">
-                    <li><a href="#">Все отзывы</a></li>
-                    <li><a href="#">Настройки приложения</a></li>
-                    <li><a href="#">Выход</a></li>
-                </ul>
-            </div>
-
-        </div>
-
-    </section>
-
-    <section class="news-slider">
-
-        <div class="slider-wrapper">
-
-            <div class="slide active">
-                <div class="slide-bg" style="background-image: linear-gradient(to top, rgba(0,0,0,0.9), transparent), url('all_styles/News_1.jpg');"></div>
-    
-                <div class="slide-content">
-                    <span class="badge">Новости Приложения</span>
-                    <h2>FEEDBACKET внедряет новые алгоритмы анализа тональности</h2>
-                    <p>Теперь система еще точнее определяет эмоции гостей в отзывах.</p>
-                    <a href="#" class="read-more">Читать далее</a>
+                <div class="analytics-preview-block card-bg-styled">
+                    <h3 style="margin: 0 0 10px 0;" data-en="Operational Analytics Summary" data-ru="Сводка операционной аналитики">Сводка операционной аналитики</h3>
+                    <div class="stat-row-item">
+                        <span class="stat-label-text" data-en="Unresolved reviews in list" data-ru="Необработанные отзывы в очереди">Необработанные отзывы в очереди</span>
+                        <span class="stat-value-digits" style="color: var(--button-bg);">12</span>
+                    </div>
+                    <div class="stat-row-item">
+                        <span class="stat-label-text" data-en="Processed updates today" data-ru="Обработано ответов за сегодня">Обработано ответов за сегодня</span>
+                        <span class="stat-value-digits">148</span>
+                    </div>
+                    <div class="sentiment-bar-wrapper">
+                        <span class="stat-label-text" data-en="Daily feedback tone share" data-ru="Доля тональности отзывов">Доля тональности отзывов</span>
+                        <div class="sentiment-bar-line">
+                            <div class="bar-segment pos" style="width: 75%;"></div>
+                            <div class="bar-segment neu" style="width: 20%;"></div>
+                            <div class="bar-segment neg" style="width: 5%;"></div>
+                        </div>
+                        <div class="sentiment-legends">
+                            <span data-en="Positive (75%)" data-ru="Положительные (75%)">Положительные (75%)</span>
+                            <span data-en="Neutral (20%)" data-ru="Нейтральные (20%)">Нейтральные (20%)</span>
+                            <span data-en="Negative (5%)" data-ru="Негативные (5%)">Негативные (5%)</span>
+                        </div>
+                    </div>
                 </div>
-
             </div>
 
-            <div class="slide">
-
-                <div class="slide-bg" style="background-image: linear-gradient(to top, rgba(0,0,0,0.9), transparent), url('all_styles/News_2.jpg');"></div>
-
-                <div class="slide-content">
-                    <span class="badge">Отели</span>
-                    <h2>Топ-10 гостиниц, использующих автоответы</h2>
-                    <p>Узнайте, как автоматизация помогла поднять рейтинг на 0.7 балла.</p>
-                    <a href="#" class="read-more">Читать далее</a>
+            <div class="dashboard-block card-bg-styled">
+                <h3 data-en="Automation Efficiency Metrics" data-ru="Метрики эффективности автоматизации">Метрики эффективности автоматизации</h3>
+                <div class="efficiency-grid">
+                    <div class="eff-item">
+                        <span class="eff-num">~3 <span data-en="sec" data-ru="сек">сек</span></span>
+                        <p data-en="AI generation response speed" data-ru="Скорость генерации ответа ИИ">Скорость генерации ответа ИИ</p>
+                    </div>
+                    <div class="eff-item">
+                        <span class="eff-num">72%</span>
+                        <p data-en="Manager time saved" data-ru="Сокращение времени менеджера">Сокращение времени менеджера</p>
+                    </div>
+                    <div class="eff-item">
+                        <span class="eff-num">94.8%</span>
+                        <p data-en="ruGPT-3 semantic accuracy" data-ru="Семантическая точность ruGPT-3">Семантическая точность ruGPT-3</p>
+                    </div>
                 </div>
-
             </div>
+        </section>
 
-            <div class="timer-line">
-                <div class="timer-progress"></div>
-            </div>
-        
-            <button class="nav-btn prev" id="prevSlide">&#10229;</button>
-            <button class="nav-btn next" id="nextSlide">&#10230;</button>
-
-        </div>
-
-    </section>
+        <footer class="main-footer">
+            <div>&copy; 2026 Feedbacket System | НИТУ МИСИС</div>
+        </footer>
+    </div>
 
     <script src="logic.js"></script>
-
 </body>
 </html>

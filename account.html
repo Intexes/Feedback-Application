@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <title>Feedbacket | Личный кабинет</title>
+</head>
+<body class="Main_part">
+
+    <div class="sidebar" id="sidebarMenu">
+        <div class="sidebar-header">
+            <span class="sidebar-title" data-en="Navigation" data-ru="Навигация">Навигация</span>
+            <button class="close-sidebar-btn" id="closeSidebar">&times;</button>
+        </div>
+        <ul class="sidebar-links">
+            <li><a href="index.html" data-en="Home" data-ru="Главная">Главная</a></li>
+            <li><a href="workspace.html" data-en="Manager Workspace" data-ru="Рабочее окно менеджера">Рабочее окно менеджера</a></li>
+            <li><a href="account.html" class="active" data-en="Manager Account" data-ru="Аккаунт менеджера">Аккаунт менеджера</a></li>
+            <li><a href="settings.html" data-en="Application Settings" data-ru="Настройки приложения">Настройки приложения</a></li>
+            <li class="sidebar-divider"></li>
+            <li><a href="#" class="logout-link" data-en="Logout" data-ru="Выход">Выход</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content-wrapper" id="contentWrapper">
+        <section class="Upside_line">
+            <div class="Upside_line_logo">
+                <a href="index.html">
+                    <img class="Upside_line_logo_image" id="logoImg" src="all_styles/logo-white.png" alt="Логотип">
+                </a>
+            </div>
+            <div class="Search_container" id="searchContainer">
+                <input type="text" class="Search_input" id="searchInput" placeholder="Поиск по истории...">
+            </div>
+            <div class="Upside_menu">
+                <div class="Other_menu">
+                    <div class="Language_menu"><button class="Languge_menu_icon" id="LangBtn"><span class="lang-text">RU</span></button></div>
+                    <div class="Theme_menu">
+                        <button class="Theme_menu_icon" id="ThemBtn" title="Изменить тему">
+                            <span id="themeIcon" style="display: flex; align-items: center; justify-content: center; width: 20px; height: 20px;"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="Searching_menu">
+                    <button class="Searching_menu_button" id="searchBtn">
+                        <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </button>
+                </div>
+                <div class="Upside_line_menu"><button class="Upside_line_menu_button" id="menuBtn"><span></span><span></span><span></span></button></div>
+            </div>
+        </section>
+
+        <main class="account-grid">
+            <div style="display: flex; flex-direction: column; gap: 30px;">
+                <div class="profile-meta-block card-bg-styled">
+                    <div class="avatar-frame">АИ</div>
+                    <h2 data-en="Alex Ivanov" data-ru="Алексей Иванов">Алексей Иванов</h2>
+                    <div class="profile-role-tag" data-en="Senior Guest Relations Manager" data-ru="Старший менеджер по работе с гостями">Старший менеджер по работе с гостями</div>
+                    
+                    <div class="profile-stats-row">
+                        <div class="p-stat-item">
+                            <span>1,240</span>
+                            <p data-en="Total Checked" data-ru="Всего ответов">Всего ответов</p>
+                        </div>
+                        <div class="p-stat-item">
+                            <span>98.2%</span>
+                            <p data-en="Approval Rate" data-ru="KPI Утверждения">KPI Утверждения</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-bg-styled">
+                    <h3 style="margin:0 0 15px 0; font-size:16px;" data-en="Assigned Otel Zone" data-ru="Зона ответственности">Зона ответственности</h3>
+                    <p style="font-size:14px; margin:0; line-height:1.5;" data-en="Central Grand Hotel & Spa Moscow (All platforms monitoring active)" data-ru="Центральный Гранд Отель и Спа Москва (Мониторинг всех подключенных платформ)">Центральный Гранд Отель и Спа Москва (Мониторинг всех подключенных платформ)</p>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 30px;">
+                <div class="card-bg-styled">
+                    <h2 style="margin: 0 0 15px 0; font-size: 18px;" data-en="Recent Log Activity" data-ru="Последние действия в системе">Последние действия в системе</h2>
+                    <div class="table-responsive-container">
+                        <table class="history-logs-table">
+                            <thead>
+                                <tr>
+                                    <th data-en="Time" data-ru="Время">Время</th>
+                                    <th data-en="Platform" data-ru="Площадка">Площадка</th>
+                                    <th data-en="Rating" data-ru="Оценка">Оценка</th>
+                                    <th data-en="Action" data-ru="Статус действия">Статус действия</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Сегодня, 11:05</td>
+                                    <td>Booking.com</td>
+                                    <td><span class="rating-badge negative">2/5</span></td>
+                                    <td><span class="status-indicator-text" style="color: #eab308;" data-en="Manual Approved" data-ru="Апрув менеджера">Апрув менеджера</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Вчера, 17:40</td>
+                                    <td>Яндекс.Карты</td>
+                                    <td><span class="rating-badge positive">5/5</span></td>
+                                    <td><span class="status-indicator-text" style="color: #43b4e0;" data-en="Edited Manually" data-ru="Правка вручную">Правка вручную</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notes-panel card-bg-styled" style="grid-column: 1 / -1;">
+                <h2 data-en="Manager Quick Notes" data-ru="Внутренний блокнот менеджера">Внутренний блокнот менеджера</h2>
+                <textarea class="notepad-input" placeholder="Записать важную информацию по номерам или жалобам..." data-en-placeholder="Write important internal notes here..."></textarea>
+                <button class="save-notes-btn" data-en="Save Notes" data-ru="Сохранить заметки">Сохранить заметки</button>
+            </div>
+        </main>
+
+        <footer class="main-footer">
+            <div>&copy; 2026 Feedbacket System | НИТУ МИСИС</div>
+        </footer>
+    </div>
+
+    <script src="logic.js"></script>
+</body>
+</html>

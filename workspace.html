@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <title>Feedbacket | Рабочая зона</title>
+</head>
+<body class="Main_part">
+
+    <div class="sidebar" id="sidebarMenu">
+        <div class="sidebar-header">
+            <span class="sidebar-title" data-en="Navigation" data-ru="Навигация">Навигация</span>
+            <button class="close-sidebar-btn" id="closeSidebar">&times;</button>
+        </div>
+        <ul class="sidebar-links">
+            <li><a href="index.html" data-en="Home" data-ru="Главная">Главная</a></li>
+            <li><a href="workspace.html" class="active" data-en="Manager Workspace" data-ru="Рабочее окно менеджера">Рабочее окно менеджера</a></li>
+            <li><a href="account.html" data-en="Manager Account" data-ru="Аккаунт менеджера">Аккаунт менеджера</a></li>
+            <li><a href="settings.html" data-en="Application Settings" data-ru="Настройки приложения">Настройки приложения</a></li>
+            <li class="sidebar-divider"></li>
+            <li><a href="#" class="logout-link" data-en="Logout" data-ru="Выход">Выход</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content-wrapper" id="contentWrapper">
+        <section class="Upside_line">
+            <div class="Upside_line_logo">
+                <a href="index.html">
+                    <img class="Upside_line_logo_image" id="logoImg" src="all_styles/logo-white.png" alt="Логотип">
+                </a>
+            </div>
+            <div class="Search_container" id="searchContainer">
+                <input type="text" class="Search_input" id="searchInput" placeholder="Поиск отзывов...">
+            </div>
+            <div class="Upside_menu">
+                <div class="Other_menu">
+                    <div class="Language_menu"><button class="Languge_menu_icon" id="LangBtn"><span class="lang-text">RU</span></button></div>
+                    <div class="Theme_menu">
+                        <button class="Theme_menu_icon" id="ThemBtn" title="Изменить тему">
+                            <span id="themeIcon" style="display: flex; align-items: center; justify-content: center; width: 20px; height: 20px;"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="Searching_menu">
+                    <button class="Searching_menu_button" id="searchBtn">
+                        <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </button>
+                </div>
+                <div class="Upside_line_menu"><button class="Upside_line_menu_button" id="menuBtn"><span></span><span></span><span></span></button></div>
+            </div>
+        </section>
+
+        <main class="workspace-split">
+            <div class="reviews-list-panel card-bg-styled" id="reviewsPanel">
+                <div class="panel-header-flex">
+                    <h2 data-en="Reviews Queue" data-ru="Очередь отзывов">Очередь отзывов</h2>
+                    <button class="collapse-btn" id="collapsePanelBtn" title="Свернуть">◂</button>
+                </div>
+                <div class="queue-scroll-container">
+                    <div class="review-queue-card active">
+                        <div class="card-top-meta">
+                            <span>Booking.com</span>
+                            <span class="rating-badge negative">2/5</span>
+                        </div>
+                        <div class="card-author-name">Мария К.</div>
+                        <div class="card-text-preview">Ужасный сервис на ресепшене, заселение задержали на полтора часа...</div>
+                    </div>
+                    <div class="review-queue-card">
+                        <div class="card-top-meta">
+                            <span>Яндекс.Карты</span>
+                            <span class="rating-badge positive">5/5</span>
+                        </div>
+                        <div class="card-author-name">Иван П.</div>
+                        <div class="card-text-preview">Отличный отель! Чистые номера, прекрасный вид и вкусный завтрак.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-editor-panel">
+                <div class="view-header-row">
+                    <h1 style="font-size: 22px; font-weight: 700; margin: 0;" data-en="Active Case Processing" data-ru="Обработка активного отзыва">Обработка активного отзыва</h1>
+                </div>
+
+                <div class="original-review-display card-bg-styled">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;">
+                        <div>
+                            <strong style="font-size: 16px;">Мария Ковалева</strong>
+                            <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Платформа: Booking.com | Дата: Сегодня, 11:05</div>
+                        </div>
+                        <span class="rating-badge negative" style="font-size: 13px; padding: 4px 10px;">Рейтинг: 2/5</span>
+                    </div>
+                    <div class="review-full-text">
+                        Ужасный сервис на ресепшене. Заселение задержали на полтора часа, менеджер даже не извинился. В номере было грязно. Единственный плюс — это расположение гостиницы.
+                    </div>
+                </div>
+
+                <div class="editor-section card-bg-styled">
+                    <div class="ai-header">
+                        <h2 data-en="AI Suggestion (ruGPT-3)" data-ru="Ответ от ruGPT-3 ИИ">Ответ от ruGPT-3 ИИ</h2>
+                        <button class="regenerate-btn" data-en="Regenerate" data-ru="Перегенерировать">Перегенерировать</button>
+                    </div>
+                    <textarea class="ai-textarea">Здравствуйте! Благодарим вас за отзыв. Нам очень жаль, что заселение в наш отель доставило вам неудобства. Мы уже передали информацию руководству службы приема и размещения для проведения проверки качества сервиса. Надеемся вернуть ваше доверие.</textarea>
+                    
+                    <div class="editor-actions">
+                        <button class="action-btn secondary" data-en="Edit Manually" data-ru="Править вручную">Править вручную</button>
+                        <button class="action-btn primary" data-en="Approve & Send" data-ru="Утвердить и отправить">Утвердить и отправить</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="main-footer">
+            <div>&copy; 2026 Feedbacket System | НИТУ МИСИС</div>
+        </footer>
+    </div>
+
+    <script src="logic.js"></script>
+</body>
+</html>

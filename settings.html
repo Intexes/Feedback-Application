@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <title>Feedbacket | Настройки</title>
+</head>
+<body class="Main_part">
+
+    <div class="sidebar" id="sidebarMenu">
+        <div class="sidebar-header">
+            <span class="sidebar-title" data-en="Navigation" data-ru="Навигация">Навигация</span>
+            <button class="close-sidebar-btn" id="closeSidebar">&times;</button>
+        </div>
+        <ul class="sidebar-links">
+            <li><a href="index.html" data-en="Home" data-ru="Главная">Главная</a></li>
+            <li><a href="workspace.html" data-en="Manager Workspace" data-ru="Рабочее окно менеджера">Рабочее окно менеджера</a></li>
+            <li><a href="account.html" data-en="Manager Account" data-ru="Аккаунт менеджера">Аккаунт менеджера</a></li>
+            <li><a href="settings.html" class="active" data-en="Application Settings" data-ru="Настройки приложения">Настройки приложения</a></li>
+            <li class="sidebar-divider"></li>
+            <li><a href="#" class="logout-link" data-en="Logout" data-ru="Выход">Выход</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content-wrapper" id="contentWrapper">
+        <section class="Upside_line">
+            <div class="Upside_line_logo">
+                <a href="index.html">
+                    <img class="Upside_line_logo_image" id="logoImg" src="all_styles/logo-white.png" alt="Логотип">
+                </a>
+            </div>
+            <div class="Search_container" id="searchContainer">
+                <input type="text" class="Search_input" id="searchInput" placeholder="Поиск настроек...">
+            </div>
+            <div class="Upside_menu">
+                <div class="Other_menu">
+                    <div class="Language_menu"><button class="Languge_menu_icon" id="LangBtn"><span class="lang-text">RU</span></button></div>
+                    <div class="Theme_menu">
+                        <button class="Theme_menu_icon" id="ThemBtn" title="Изменить тему">
+                            <span id="themeIcon" style="display: flex; align-items: center; justify-content: center; width: 20px; height: 20px;"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="Searching_menu">
+                    <button class="Searching_menu_button" id="searchBtn">
+                        <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </button>
+                </div>
+                <div class="Upside_line_menu"><button class="Upside_line_menu_button" id="menuBtn"><span></span><span></span><span></span></button></div>
+            </div>
+        </section>
+
+        <main class="settings-container" style="display: flex; flex-direction: column; gap: 30px; padding: 40px 30px;">
+            
+            <div class="card-bg-styled" style="z-index: 10;">
+                <h2 style="margin: 0 0 25px 0; font-size: 20px; font-weight: 700;" data-en="AI Automation Parameters" data-ru="Параметры автоматизации ИИ">Параметры автоматизации ИИ</h2>
+                <div class="settings-form-flex">
+                    
+                    <div class="custom-select-group">
+                        <label data-en="Operation Mode" data-ru="Режим работы системы">Режим работы системы</label>
+                        <div class="select-trigger" id="modeTrigger">
+                            <span id="modeValue">Ручной апрув (Контроль менеджера)</span>
+                            <span class="arrow-indicator">▼</span>
+                        </div>
+                        <div class="custom-dropdown-box" id="modeDropdown">
+                            <div class="dropdown-option active" data-value="manual" data-en="Manual Approval" data-ru="Ручной апрув (Контроль менеджера)">Ручной апрув (Контроль менеджера)</div>
+                            <div class="dropdown-option" data-value="autopilot" data-en="Full Autopilot (5/5 Reviews)" data-ru="Полный автопилот (Автоотправка на 5/5)">Полный автопилот (Автоотправка на 5/5)</div>
+                        </div>
+                    </div>
+
+                    <div class="custom-select-group">
+                        <label data-en="ruGPT-3 Response Length" data-ru="Длина генерируемого ответа (ruGPT-3)">Длина генерируемого ответа (ruGPT-3)</label>
+                        <div class="select-trigger" id="lengthTrigger">
+                            <span id="lengthValue">Стандартный (До 400 символов)</span>
+                            <span class="arrow-indicator">▼</span>
+                        </div>
+                        <div class="custom-dropdown-box" id="lengthDropdown">
+                            <div class="dropdown-option" data-value="short" data-en="Short & Concise" data-ru="Краткий (До 200 символов)">Краткий (До 200 символов)</div>
+                            <div class="dropdown-option active" data-value="medium" data-en="Standard Structure" data-ru="Стандартный (До 400 символов)">Стандартный (До 400 символов)</div>
+                            <div class="dropdown-option" data-value="long" data-en="Detailed & Comprehensive" data-ru="Развернутый (До 800 символов)">Развернутый (До 800 символов)</div>
+                        </div>
+                    </div>
+
+                    <div class="custom-select-group">
+                        <label data-en="Brand Tone of Voice" data-ru="Тональность бренда (Tone of Voice)">Тональность бренда (Tone of Voice)</label>
+                        <div class="select-trigger" id="toneTrigger">
+                            <span id="toneValue">Официально-деловой</span>
+                            <span class="arrow-indicator">▼</span>
+                        </div>
+                        <div class="custom-dropdown-box" id="toneDropdown">
+                            <div class="dropdown-option active" data-value="business" data-en="Official Business" data-ru="Официально-деловой">Официально-деловой</div>
+                            <div class="dropdown-option" data-value="friendly" data-en="Friendly & Warm" data-ru="Дружелюбный">Дружелюбный</div>
+                            <div class="dropdown-option" data-value="reserved" data-en="Reserved & Neutral" data-ru="Сдержанный">Сдержанный</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card-bg-styled" style="z-index: 9;">
+                <h2 style="margin: 0 0 25px 0; font-size: 20px; font-weight: 700;" data-en="Parsing & Integration Settings" data-ru="Настройки парсинга и интеграций">Настройки парсинга и интеграций</h2>
+                <div class="settings-form-flex">
+                    
+                    <div class="custom-select-group">
+                        <label data-en="Data Scan Interval" data-ru="Периодичность сканирования площадок парсером">Периодичность сканирования площадок парсером</label>
+                        <div class="select-trigger" id="parseTrigger">
+                            <span id="parseValue">Каждые 30 минут</span>
+                            <span class="arrow-indicator">▼</span>
+                        </div>
+                        <div class="custom-dropdown-box" id="parseDropdown">
+                            <div class="dropdown-option active" data-value="30m" data-en="Every 30 minutes" data-ru="Каждые 30 минут">Каждые 30 минут</div>
+                            <div class="dropdown-option" data-value="2h" data-en="Every 2 hours" data-ru="Каждые 2 часа">Каждые 2 часа</div>
+                            <div class="dropdown-option" data-value="24h" data-en="Once a day" data-ru="Раз в сутки">Раз в сутки</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card-bg-styled" style="z-index: 1;">
+                <h2 style="margin: 0 0 25px 0; font-size: 20px; font-weight: 700;" data-en="Critical Notifications" data-ru="Системные уведомления о критическом негативе">Системные уведомления о критическом негативе</h2>
+                <p style="font-size: 13px; color: var(--text-muted); margin: -15px 0 20px 0;" data-en="Instant alerts via email or Telegram when 1-2 star reviews are detected." data-ru="Мгновенные алерты на почту или в Telegram при обнаружении отзывов 1-2 звезды.">Мгновенные алерты на почту или в Telegram при обнаружении отзывов 1-2 звезды.</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <label style="font-size: 13px; color: var(--text-muted); font-weight: 600;">Email для алертов</label>
+                        <input type="email" class="Search_input" value="alert@hotel-corp.ru" style="width: 100%; border: 1px solid var(--border-color); margin: 0;">
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <label style="font-size: 13px; color: var(--text-muted); font-weight: 600;">Telegram Chat ID / Username</label>
+                        <input type="text" class="Search_input" value="@hotel_ops_bot" style="width: 100%; border: 1px solid var(--border-color); margin: 0;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-bg-styled" style="z-index: 1;">
+                <h2 style="margin: 0 0 25px 0; font-size: 20px; font-weight: 700;" data-en="Manager Profile Settings" data-ru="Настройки профиля и учетной записи">Настройки профиля и учетной записи</h2>
+                <div class="settings-form-flex">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-size: 13px; color: var(--text-muted); font-weight: 600;" data-en="Manager Name" data-ru="Имя менеджера">Имя менеджера</label>
+                            <input type="text" class="Search_input" value="Алексей Иванов" style="width: 100%; border: 1px solid var(--border-color); margin: 0;">
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-size: 13px; color: var(--text-muted); font-weight: 600;" data-en="New Password" data-ru="Новый пароль">Новый пароль</label>
+                            <input type="password" class="Search_input" style="width: 100%; border: 1px solid var(--border-color); margin: 0;" placeholder="••••••••••••">
+                        </div>
+                    </div>
+                    <button class="save-settings-btn" style="align-self: flex-start; margin-top: 10px;" data-en="Save All Changes" data-ru="Сохранить конфигурацию">Сохранить конфигурацию</button>
+                </div>
+            </div>
+        </main>
+
+        <footer class="main-footer">
+            <div>&copy; 2026 Feedbacket System | НИТУ МИСИС</div>
+        </footer>
+    </div>
+
+    <script src="logic.js"></script>
+</body>
+</html>
