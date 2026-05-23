@@ -76,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         el.setAttribute('placeholder', el.getAttribute('data-ru-placeholder'));
                     }
                 } else {
-                    // Исключаем dropdown-option, чтобы не затереть их собственные дата-атрибуты при выборе
                     if (!el.classList.contains('dropdown-option')) {
                         el.textContent = el.getAttribute('data-ru');
                     }
@@ -101,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Синхронизируем отображаемый текст в селекторах под текущий язык
         selectPairs.forEach(pair => {
             const dropdownEl = document.getElementById(pair.dropdown);
-            const valueEl = document.getElementById(pair.value);
+            const valueEl = document.getElementById(pair.value); // Может быть null для aiModel
             if (dropdownEl && valueEl) {
                 const activeOption = dropdownEl.querySelector('.dropdown-option.active');
                 if (activeOption) {
@@ -155,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectPairs = [
         { trigger: 'modeTrigger', dropdown: 'modeDropdown', value: 'modeValue' },
         { trigger: 'lengthTrigger', dropdown: 'lengthDropdown', value: 'lengthValue' },
+        { trigger: 'aiModelTrigger', dropdown: 'aiModelDropdown', value: 'aiModelValue' }, // Добавили гипотетический value или обработаем ниже безопаснее
         { trigger: 'toneTrigger', dropdown: 'toneDropdown', value: 'toneValue' },
         { trigger: 'parseTrigger', dropdown: 'parseDropdown', value: 'parseValue' }
     ];
@@ -164,7 +164,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const dropdownEl = document.getElementById(pair.dropdown);
         const valueEl = document.getElementById(pair.value);
 
-        if (triggerEl && dropdownEl && valueEl) {
+        // Безопасная проверка: вешаем события, только если триггер и дропдаун существуют на странице
+        if (triggerEl && dropdownEl) {
             triggerEl.addEventListener('click', (e) => {
                 e.stopPropagation();
                 // Закрываем другие открытые списки
@@ -186,8 +187,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     dropdownEl.querySelectorAll('.dropdown-option').forEach(opt => opt.classList.remove('active'));
                     option.classList.add('active');
                     
-                    const lang = localStorage.getItem('app-lang') || 'ru';
-                    valueEl.textContent = option.getAttribute(`data-${lang}`) || option.textContent;
+                    // Обновляем текст, только если текстовый элемент существует
+                    if (valueEl) {
+                        const lang = localStorage.getItem('app-lang') || 'ru';
+                        valueEl.textContent = option.getAttribute(`data-${lang}`) || option.textContent;
+                    }
                     
                     dropdownEl.classList.remove('active');
                     triggerEl.classList.remove('open');
@@ -201,20 +205,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Глобальный клик: закрытие окон поиска, сайдбара и селекторов при клике в пустую область
     document.addEventListener('click', (e) => {
+        // Безопасная проверка сайдбара
         if (sidebarMenu && sidebarMenu.classList.contains('active')) {
-            if (!sidebarMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+            const isClickInsideSidebar = sidebarMenu.contains(e.target);
+            const isClickOnMenuBtn = menuBtn && menuBtn.contains(e.target);
+            
+            if (!isClickInsideSidebar && !isClickOnMenuBtn) {
                 toggleSidebar();
             }
         }
-        if (searchContainer && !searchContainer.contains(e.target) && !searchBtn.contains(e.target)) {
-            searchContainer.classList.remove('active');
+        
+        // Безопасная проверка контейнера поиска
+        if (searchContainer && searchContainer.classList.contains('active')) {
+            const isClickInsideSearch = searchContainer.contains(e.target);
+            const isClickOnSearchBtn = searchBtn && searchBtn.contains(e.target);
+            
+            if (!isClickInsideSearch && !isClickOnSearchBtn) {
+                searchContainer.classList.remove('active');
+            }
         }
+        
+        // Безопасная проверка кастомных селекторов
         selectPairs.forEach(pair => {
             const dropdown = document.getElementById(pair.dropdown);
             const trigger = document.getElementById(pair.trigger);
-            if (dropdown && !dropdown.contains(e.target) && (!trigger || !trigger.contains(e.target))) {
-                dropdown.classList.remove('active');
-                if (trigger) trigger.classList.remove('open');
+            if (dropdown && dropdown.classList.contains('active')) {
+                if (!dropdown.contains(e.target) && (!trigger || !trigger.contains(e.target))) {
+                    dropdown.classList.remove('active');
+                    if (trigger) trigger.classList.remove('open');
+                }
             }
         });
     });
@@ -251,7 +270,6 @@ document.addEventListener('DOMContentLoaded', () => {
             slideInterval = setInterval(moveNext, 6000);
         }
 
-        // Кнопки ручного управления слайдером (если добавлены в DOM)
         const nextBtn = document.getElementById('nextSlide');
         const prevBtn = document.getElementById('prevSlide');
 
@@ -269,7 +287,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Старт
         updateSlide(0);
         startTimer();
     }

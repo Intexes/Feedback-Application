@@ -340,7 +340,7 @@ body.sidebar-open { overflow: hidden; }
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
 }
 
 .custom-select-group label {
@@ -377,7 +377,7 @@ body.sidebar-open { overflow: hidden; }
     background: var(--dropdown-bg);
     border: 1px solid var(--border-color);
     border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 25px var(--shadow-color);
     z-index: 999 !important; /* Ложится поверх любых карт, полей и футеров */
     display: none;
     overflow: hidden;
