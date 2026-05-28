@@ -1,0 +1,29 @@
+```
+# Dependencies
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+ENV/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.*
+!requirements.txt
+
+# OS generated files
+.DS_Store
+Thumbs.db
+```
