@@ -1,10 +1,17 @@
+import os
 from sqlalchemy import create_engine, Column, Integer, String, Text, Float, DateTime, ForeignKey, Date
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
 
-# Создаем базу данных SQLite в файле
-DATABASE_URL = "sqlite:///./data/feedbacket.db"
+# Определяем абсолютный путь к базе данных
+# База будет лежать в папке data рядом с этим файлом (внутри backend) или в корне проекта
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, "..", "data")
+os.makedirs(DATA_DIR, exist_ok=True)  # Создаем папку data, если её нет
+DB_PATH = os.path.join(DATA_DIR, "feedbacket.db")
+
+DATABASE_URL = f"sqlite:///{DB_PATH}"
 
 engine = create_engine(
     DATABASE_URL, 
