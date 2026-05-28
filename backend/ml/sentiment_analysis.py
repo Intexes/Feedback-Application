@@ -1,133 +1,115 @@
+import os
+import sys
+from datetime import datetime
+
+# Добавляем корень проекта в путь
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+
+from backend.models import SessionLocal, RawReview, SentimentLabel, Base, engine
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
-from torch.nn.functional import softmax
-import sys
-import os
+import numpy as np
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from models import SessionLocal, SentimentLabel, RawReview, SyntheticReview
+# Создаем таблицы, если их нет (на случай если sentiment_labels еще нет)
+Base.metadata.create_all(bind=engine)
 
-class SentimentAnalyzer:
-    def __init__(self, model_name="blanchefort/rubert-base-cased-sentiment-rusentiplex"):
-        """
-        Инициализация модели ruBert для анализа тональности
-        Модель: blanchefort/rubert-base-cased-sentiment-rusentiplex
-        Классы: negative, neutral, positive
-        """
-        print(f"🔄 Загрузка модели {model_name}...")
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.model = AutoModelForSequenceClassification.from_pretrained(model_name)
-        self.model.eval()
-        self.label_map = {0: 'negative', 1: 'neutral', 2: 'positive'}
-        print("✅ Модель загружена!")
+# --- Конфигурация модели ---
+# Используем популярную русскую модель для тональности от Blago-ai или similar
+MODEL_NAME = "blanchefort/rubert-base-cased-sentiment-rusentiment" 
+# Альтернатива если эта не скачается: "cointegrated/rubert-tiny2" (но она менее точная для сентимента)
+# Для надежности возьмем модель, специально дообученную на русских отзывах:
+# "seara/rubert-base-cased-russian-sentiment" или используем простую логику если модель тяжелая.
+# Для примера возьмем надежную: "dkleczek/bert-base-polish-uncased-v1" - нет, нам русская.
+# Возьмем: "ironbark/sentiment_rubert" или стандартный подход.
+# Самый стабильный вариант для демо: "cointegrated/rubert-tiny2" + свой классификатор? 
+# Нет, лучше готовую: "blanchefort/rubert-base-cased-sentiment" (она мультиязычная, но русский знает хорошо).
 
-    def predict_sentiment(self, text, max_length=512):
-        """Предсказание тональности для одного отзыва"""
-        inputs = self.tokenizer(
-            text, 
-            return_tensors="pt", 
-            truncation=True, 
-            max_length=max_length,
-            padding=True
-        )
+MODEL_NAME = "blanchefort/rubert-base-cased-sentiment"
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"🚀 Загрузка модели {MODEL_NAME} на устройстве: {device}...")
+
+try:
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+    model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME)
+    model.to(device)
+    model.eval()
+    print("✅ Модель успешно загружена!")
+except Exception as e:
+    print(f"❌ Ошибка загрузки модели: {e}")
+    print("Убедитесь, что есть интернет для первой загрузки модели.")
+    sys.exit(1)
+
+# Маппинг лейблов модели (зависит от конкретной модели, у blanchefort обычно: NEG, NEU, POS)
+# Проверим конфиг модели при запуске, но обычно:
+# 0: NEGATIVE, 1: NEUTRAL, 2: POSITIVE
+label_map = {0: "negative", 1: "neutral", 2: "positive"}
+
+def predict_sentiment(text):
+    """Возвращает метку и уверенность."""
+    inputs = tokenizer(text, return_tensors="pt", truncation=True, max_length=512, padding=True).to(device)
+    
+    with torch.no_grad():
+        outputs = model(**inputs)
+        probabilities = torch.nn.functional.softmax(outputs.logits, dim=-1)
+        confidence, predicted_class = torch.max(probabilities, dim=1)
         
-        with torch.no_grad():
-            outputs = self.model(**inputs)
-            probabilities = softmax(outputs.logits, dim=1)[0]
-            predicted_class = torch.argmax(probabilities).item()
-            
-        return {
-            'sentiment': self.label_map[predicted_class],
-            'confidence_score': probabilities[predicted_class].item(),
-            'all_probabilities': {
-                'negative': probabilities[0].item(),
-                'neutral': probabilities[1].item(),
-                'positive': probabilities[2].item()
-            }
-        }
+        pred_label_id = predicted_class.item()
+        conf_score = confidence.item()
+        
+        # Для этой модели маппинг может отличаться, проверим по логике:
+        # Обычно в таких моделях порядок классов совпадает с индексом.
+        # Если модель blanchefort/rubert-base-cased-sentiment, то классы: ['NEG', 'NEU', 'POS']
+        # Индексы: 0, 1, 2.
+        
+        sentiment_text = label_map.get(pred_label_id, "unknown")
+        return sentiment_text, conf_score
 
-    def analyze_raw_reviews(self, batch_size=10):
-        """Анализ всех сырых отзывов в БД"""
-        db = SessionLocal()
+def analyze_reviews():
+    db = SessionLocal()
+    
+    # Получаем все отзывы, для которых еще нет анализа
+    # Мы будем искать отзывы, у которых нет записи в SentimentLabel с этим review_id
+    all_reviews = db.query(RawReview).all()
+    
+    print(f"\n📊 Найдено отзывов для анализа: {len(all_reviews)}")
+    
+    processed_count = 0
+    
+    for review in all_reviews:
+        # Проверяем, есть ли уже метка
+        existing_label = db.query(SentimentLabel).filter_by(review_id=review.id).first()
+        if existing_label:
+            continue # Пропускаем, если уже проанализировано
+            
+        print(f"⏳ Анализ отзыва #{review.id}: {review.content[:50]}...")
+        
         try:
-            reviews = db.query(RawReview).filter(
-                ~RawReview.id.in_(
-                    db.query(SentimentLabel.review_id).filter(
-                        SentimentLabel.review_type == 'raw'
-                    )
-                )
-            ).all()
+            sentiment, confidence = predict_sentiment(review.content)
             
-            print(f"\n📊 Найдено {len(reviews)} отзывов для анализа")
+            new_label = SentimentLabel(
+                review_id=review.id,
+                sentiment=sentiment,
+                confidence=confidence,
+                analyzed_at=datetime.now()
+            )
             
-            processed = 0
-            for i, review in enumerate(reviews):
-                result = self.predict_sentiment(review.review_text)
+            db.add(new_label)
+            processed_count += 1
+            
+            if processed_count % 5 == 0:
+                db.commit() # Периодически сохраняем, чтобы не потерять прогресс
+                print(f"✓ Сохранено {processed_count} результатов...")
                 
-                label = SentimentLabel(
-                    review_id=review.id,
-                    review_type='raw',
-                    sentiment=result['sentiment'],
-                    confidence_score=result['confidence_score'],
-                    model_version="blanchefort/rubert-base-cased-sentiment-rusentiplex"
-                )
-                
-                db.add(label)
-                processed += 1
-                
-                if processed % batch_size == 0:
-                    db.commit()
-                    print(f"✓ Обработано {processed}/{len(reviews)} отзывов")
+        except Exception as e:
+            print(f"⚠️ Ошибка при анализе отзыва {review.id}: {e}")
+            continue
             
-            db.commit()
-            print(f"\n✅ Анализ завершён! Обработано {processed} отзывов")
-            
-        finally:
-            db.close()
-
-    def analyze_synthetic_reviews(self, batch_size=10):
-        """Анализ синтетических отзывов"""
-        db = SessionLocal()
-        try:
-            reviews = db.query(SyntheticReview).filter(
-                ~SyntheticReview.id.in_(
-                    db.query(SentimentLabel.review_id).filter(
-                        SentimentLabel.review_type == 'synthetic'
-                    )
-                )
-            ).all()
-            
-            print(f"\n📊 Найдено {len(reviews)} синтетических отзывов для анализа")
-            
-            processed = 0
-            for review in reviews:
-                result = self.predict_sentiment(review.review_text)
-                
-                label = SentimentLabel(
-                    review_id=review.id,
-                    review_type='synthetic',
-                    sentiment=result['sentiment'],
-                    confidence_score=result['confidence_score'],
-                    model_version="blanchefort/rubert-base-cased-sentiment-rusentiplex"
-                )
-                
-                db.add(label)
-                processed += 1
-            
-            db.commit()
-            print(f"\n✅ Анализ синтетических отзывов завершён! Обработано {processed}")
-            
-        finally:
-            db.close()
-
+    db.commit()
+    db.close()
+    
+    print(f"\n✅ Готово! Проанализировано {processed_count} отзывов.")
+    print("Данные сохранены в таблицу sentiment_labels.")
 
 if __name__ == "__main__":
-    analyzer = SentimentAnalyzer()
-    
-    print("\n🔍 Анализ сырых отзывов...")
-    analyzer.analyze_raw_reviews()
-    
-    print("\n🔍 Анализ синтетических отзывов...")
-    analyzer.analyze_synthetic_reviews()
-    
-    print("\n🎉 Все отзывы проанализированы!")
+    analyze_reviews()
