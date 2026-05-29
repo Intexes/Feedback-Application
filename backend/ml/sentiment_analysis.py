@@ -14,17 +14,8 @@ import numpy as np
 Base.metadata.create_all(bind=engine)
 
 # --- Конфигурация модели ---
-# Используем популярную русскую модель для тональности от Blago-ai или similar
-MODEL_NAME = "blanchefort/rubert-base-cased-sentiment-rusentiment" 
-# Альтернатива если эта не скачается: "cointegrated/rubert-tiny2" (но она менее точная для сентимента)
-# Для надежности возьмем модель, специально дообученную на русских отзывах:
-# "seara/rubert-base-cased-russian-sentiment" или используем простую логику если модель тяжелая.
-# Для примера возьмем надежную: "dkleczek/bert-base-polish-uncased-v1" - нет, нам русская.
-# Возьмем: "ironbark/sentiment_rubert" или стандартный подход.
-# Самый стабильный вариант для демо: "cointegrated/rubert-tiny2" + свой классификатор? 
-# Нет, лучше готовую: "blanchefort/rubert-base-cased-sentiment" (она мультиязычная, но русский знает хорошо).
-
-MODEL_NAME = "blanchefort/rubert-base-cased-sentiment"
+# Используем легкую модель для тональности (около 50MB)
+MODEL_NAME = "cointegrated/rubert-tiny-sentiment-balanced"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"🚀 Загрузка модели {MODEL_NAME} на устройстве: {device}...")
@@ -40,9 +31,8 @@ except Exception as e:
     print("Убедитесь, что есть интернет для первой загрузки модели.")
     sys.exit(1)
 
-# Маппинг лейблов модели (зависит от конкретной модели, у blanchefort обычно: NEG, NEU, POS)
-# Проверим конфиг модели при запуске, но обычно:
-# 0: NEGATIVE, 1: NEUTRAL, 2: POSITIVE
+# Маппинг лейблов для rubert-tiny-sentiment-balanced
+# Классы: negative (0), neutral (1), positive (2)
 label_map = {0: "negative", 1: "neutral", 2: "positive"}
 
 def predict_sentiment(text):
@@ -91,7 +81,7 @@ def analyze_reviews():
                 review_id=review.id,
                 sentiment=sentiment,
                 confidence=confidence,
-                analyzed_at=datetime.now()
+                created_at=datetime.now()
             )
             
             db.add(new_label)

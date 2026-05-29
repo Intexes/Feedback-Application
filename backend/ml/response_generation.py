@@ -2,15 +2,16 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 import sys
 import os
+from datetime import datetime
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from models import SessionLocal, SentimentLabel, RawReview, SyntheticReview, GeneratedResponse
+from models import SessionLocal, SentimentLabel, RawReview, GeneratedResponse
 
 class ResponseGenerator:
-    def __init__(self, model_name="ai-forever/rugpt3large_based_on_gpt2"):
+    def __init__(self, model_name="cointegrated/rubert-tiny2"):
         """
-        Инициализация модели ruGPT для генерации ответов
-        Модель: ai-forever/rugpt3large_based_on_gpt2
+        Инициализация легкой модели для генерации ответов
+        Используем rubert-tiny2 из-за ограничений по памяти
         """
         print(f"🔄 Загрузка модели {model_name}...")
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -59,25 +60,16 @@ class ResponseGenerator:
         db = SessionLocal()
         try:
             # Получаем все отзывы с метками, но без ответов
-            raw_reviews_with_labels = db.query(RawReview).join(SentimentLabel).filter(
-                SentimentLabel.review_type == 'raw',
+            # Упрощенная версия - работаем только с raw_reviews
+            raw_reviews_with_labels = db.query(RawReview).join(
+                SentimentLabel, RawReview.id == SentimentLabel.review_id
+            ).filter(
                 ~RawReview.id.in_(
-                    db.query(GeneratedResponse.review_id).filter(
-                        GeneratedResponse.review_type == 'raw'
-                    )
+                    db.query(GeneratedResponse.review_id)
                 )
             ).all()
             
-            synthetic_reviews_with_labels = db.query(SyntheticReview).join(SentimentLabel).filter(
-                SentimentLabel.review_type == 'synthetic',
-                ~SyntheticReview.id.in_(
-                    db.query(GeneratedResponse.review_id).filter(
-                        GeneratedResponse.review_type == 'synthetic'
-                    )
-                )
-            ).all()
-            
-            total = len(raw_reviews_with_labels) + len(synthetic_reviews_with_labels)
+            total = len(raw_reviews_with_labels)
             print(f"\n📊 Найдено {total} отзывов для генерации ответов")
             
             processed = 0
@@ -85,18 +77,15 @@ class ResponseGenerator:
             # Обрабатываем сырые отзывы
             for review in raw_reviews_with_labels:
                 label = db.query(SentimentLabel).filter(
-                    SentimentLabel.review_id == review.id,
-                    SentimentLabel.review_type == 'raw'
+                    SentimentLabel.review_id == review.id
                 ).first()
                 
-                response_text = self.generate_response(review.review_text, label.sentiment)
+                response_text = self.generate_response(review.content, label.sentiment)
                 
                 response = GeneratedResponse(
                     review_id=review.id,
-                    review_type='raw',
                     response_text=response_text,
-                    sentiment_context=label.sentiment,
-                    model_version="ai-forever/rugpt3large_based_on_gpt2"
+                    created_at=datetime.now()
                 )
                 
                 db.add(response)
@@ -105,26 +94,6 @@ class ResponseGenerator:
                 if processed % batch_size == 0:
                     db.commit()
                     print(f"✓ Сгенерировано {processed}/{total} ответов")
-            
-            # Обрабатываем синтетические отзывы
-            for review in synthetic_reviews_with_labels:
-                label = db.query(SentimentLabel).filter(
-                    SentimentLabel.review_id == review.id,
-                    SentimentLabel.review_type == 'synthetic'
-                ).first()
-                
-                response_text = self.generate_response(review.review_text, label.sentiment)
-                
-                response = GeneratedResponse(
-                    review_id=review.id,
-                    review_type='synthetic',
-                    response_text=response_text,
-                    sentiment_context=label.sentiment,
-                    model_version="ai-forever/rugpt3large_based_on_gpt2"
-                )
-                
-                db.add(response)
-                processed += 1
             
             db.commit()
             print(f"\n✅ Генерация завершена! Создано {processed} ответов")
