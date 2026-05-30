@@ -1,58 +1,128 @@
-import os
-from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime, Float, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, Text, Float, DateTime, Boolean, ForeignKey, Enum as SQLEnum
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
-
-# Определение пути к базе данных
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DB_PATH = os.path.join(BASE_DIR, 'data', 'feedbacket.db')
-
-# Создаем папку data, если её нет
-os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
-
-DATABASE_URL = f"sqlite:///{DB_PATH}"
-
-engine = create_engine(DATABASE_URL, echo=False)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+from datetime import datetime
+import enum
 
 Base = declarative_base()
 
-class RawReview(Base):
-    __tablename__ = 'raw_reviews'
+
+class SentimentType(enum.Enum):
+    POSITIVE = "positive"
+    NEUTRAL = "neutral"
+    NEGATIVE = "negative"
+
+
+class ReviewClass(enum.Enum):
+    SERVICE = "service"
+    CLEANLINESS = "cleanliness"
+    LOCATION = "location"
+    FOOD = "food"
+    PRICE = "price"
+    STAFF = "staff"
+    ROOM = "room"
+    AMENITIES = "amenities"
+    OTHER = "other"
+
+
+class User(Base):
+    __tablename__ = "users"
     
     id = Column(Integer, primary_key=True, index=True)
-    content = Column(Text, nullable=False)
-    source = Column(String, default='Unknown') # TripAdvisor, Google, Synthetic, etc.
-    rating = Column(String, nullable=True)     # Например, "5/5" или "10"
-    raw_date = Column(String, nullable=True)   # Дата в оригинальном формате
-    collected_at = Column(DateTime, nullable=False) # Дата сбора
+    username = Column(String(100), unique=True, nullable=False, index=True)
+    email = Column(String(255), unique=True, nullable=False, index=True)
+    hashed_password = Column(String(255), nullable=False)
+    full_name = Column(String(255))
+    is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
     
-    # Связь с метками тональности
-    sentiment = relationship("SentimentLabel", back_populates="review", uselist=False, cascade="all, delete-orphan")
+    reviews = relationship("Review", back_populates="assigned_to")
+    settings = relationship("UserSettings", back_populates="user", uselist=False)
 
-class SentimentLabel(Base):
-    __tablename__ = 'sentiment_labels'
+
+class UserSettings(Base):
+    __tablename__ = "user_settings"
     
     id = Column(Integer, primary_key=True, index=True)
-    review_id = Column(Integer, ForeignKey('raw_reviews.id'), unique=True, nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), unique=True, nullable=False)
     
-    sentiment = Column(String, nullable=False) # positive, negative, neutral
-    confidence = Column(Float, nullable=True)  # Уверенность модели от 0 до 1
-    analyzed_at = Column(DateTime, nullable=False) # Дата анализа
+    operation_mode = Column(String(50), default="manual")  # manual, autopilot
+    response_length = Column(String(50), default="medium")  # short, medium, long
+    tone_of_voice = Column(String(50), default="business")  # business, friendly, reserved
+    parse_interval = Column(String(50), default="30m")  # 30m, 2h, 24h
+    alert_email = Column(String(255))
+    alert_telegram_id = Column(String(255))
     
-    # Обратная связь
-    review = relationship("RawReview", back_populates="sentiment")
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    user = relationship("User", back_populates="settings")
 
-class GeneratedResponse(Base):
-    __tablename__ = 'generated_responses'
+
+class PlatformSource(enum.Enum):
+    BOOKING = "booking.com"
+    YANDEX_MAPS = "yandex_maps"
+    GOOGLE_MAPS = "google_maps"
+    TRIPADVISOR = "tripadvisor"
+    OSTROVOK = "ostrovok"
+    MANUL = "manul"
+    MANUAL = "manual"
+
+
+class Review(Base):
+    __tablename__ = "reviews"
     
     id = Column(Integer, primary_key=True, index=True)
-    review_id = Column(Integer, ForeignKey('raw_reviews.id'), nullable=False)
-    response_text = Column(Text, nullable=False)
-    generated_at = Column(DateTime, nullable=False)
     
-    review = relationship("RawReview")
+    # Source info
+    platform = Column(SQLEnum(PlatformSource), nullable=False)
+    external_id = Column(String(255), index=True)  # ID на внешней платформе
+    
+    # Review content
+    author_name = Column(String(255))
+    rating = Column(Integer, nullable=False)  # 1-5
+    review_text = Column(Text, nullable=False)
+    review_date = Column(DateTime)
+    
+    # ML Analysis
+    sentiment = Column(SQLEnum(SentimentType))
+    sentiment_score = Column(Float)  # 0.0 - 1.0
+    classes = Column(String(500))  # JSON string of ReviewClass values
+    is_synthetic = Column(Boolean, default=False)
+    
+    # Processing status
+    status = Column(String(50), default="pending")  # pending, analyzed, replied, approved, sent
+    assigned_to = Column(Integer, ForeignKey("users.id"))
+    
+    # AI Response
+    ai_response = Column(Text)
+    ai_response_generated_at = Column(DateTime)
+    manager_edited_response = Column(Text)
+    sent_at = Column(DateTime)
+    
+    # Timestamps
+    parsed_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    assigned_user = relationship("User", back_populates="reviews")
 
-# Функция для создания таблиц
-def init_db():
-    Base.metadata.create_all(bind=engine)
+
+class SyntheticDataConfig(Base):
+    __tablename__ = "synthetic_data_config"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    class_type = Column(String(100), nullable=False, unique=True)
+    sentiment = Column(String(50), nullable=False)
+    template_count = Column(Integer, default=0)
+    last_generated_at = Column(DateTime)
+
+
+engine = create_engine("postgresql://postgres:postgres@localhost:5432/feedbacket_db")
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
