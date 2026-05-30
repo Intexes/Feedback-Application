@@ -68,3 +68,22 @@ htmlcov/
 *.tar.bz2
 *.tar.xz
 *.tar.zst
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# ML Models and cache
+*.pt
+*.pth
+*.bin
+*.safetensors
+huggingface/
+models/
+
+# Data dumps
+*.csv
+*.xlsx
+data/
+exports/

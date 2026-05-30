@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
@@ -30,7 +30,7 @@
         <section class="Upside_line">
             <div class="Upside_line_logo">
                 <a href="index.html">
-                    <img class="Upside_line_logo_image" id="logoImg" src="all_styles/logo-white.png" alt="Логотип">
+                    <img class="Upside_line_logo_image" id="logoImg" src="all_img/logo-white.png" alt="Логотип">
                 </a>
             </div>
             <div class="Search_container" id="searchContainer">
@@ -58,21 +58,21 @@
         </section>
 
         <main class="workspace-split">
+
             <div class="reviews-list-panel card-bg-styled" id="reviewsPanel">
                 <div class="panel-header-flex">
                     <h2 data-en="Reviews Queue" data-ru="Очередь отзывов">Очередь отзывов</h2>
-                    <button class="collapse-btn" id="collapsePanelBtn" title="Свернуть">◂</button>
                 </div>
                 <div class="queue-scroll-container">
-                    <div class="review-queue-card active">
+                    <div class="review-queue-card active" data-id="101">
                         <div class="card-top-meta">
-                            <span>Booking.com</span>
+                            <span>Google.Карты</span>
                             <span class="rating-badge negative">2/5</span>
                         </div>
                         <div class="card-author-name">Мария К.</div>
                         <div class="card-text-preview">Ужасный сервис на ресепшене, заселение задержали на полтора часа...</div>
                     </div>
-                    <div class="review-queue-card">
+                    <div class="review-queue-card" data-id="102">
                         <div class="card-top-meta">
                             <span>Яндекс.Карты</span>
                             <span class="rating-badge positive">5/5</span>
@@ -80,8 +80,17 @@
                         <div class="card-author-name">Иван П.</div>
                         <div class="card-text-preview">Отличный отель! Чистые номера, прекрасный вид и вкусный завтрак.</div>
                     </div>
+                    <div class="review-queue-card" data-id="103">
+                        <div class="card-top-meta">
+                            <span>Tripadvisor</span>
+                            <span class="rating-badge neutral">4/5</span>
+                        </div>
+                        <div class="card-author-name">Ольга С.</div>
+                        <div class="card-text-preview">Вполне понравилось обслуживание и номер, но есть замечание...</div>
+                    </div>
                 </div>
             </div>
+            <button class="collapse-btn" id="collapsePanelBtn" title="Кнопка сворачивания">«</button>
 
             <div class="main-editor-panel">
                 <div class="view-header-row">
@@ -92,7 +101,7 @@
                     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;">
                         <div>
                             <strong style="font-size: 16px;">Мария Ковалева</strong>
-                            <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Платформа: Booking.com | Дата: Сегодня, 11:05</div>
+                            <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Платформа: Google.Карты | Дата: Сегодня, 11:05</div>
                         </div>
                         <span class="rating-badge negative" style="font-size: 13px; padding: 4px 10px;">Рейтинг: 2/5</span>
                     </div>
@@ -106,7 +115,7 @@
                         <h2 data-en="AI Suggestion (ruGPT-3)" data-ru="Ответ от ruGPT-3 ИИ">Ответ от ruGPT-3 ИИ</h2>
                         <button class="regenerate-btn" data-en="Regenerate" data-ru="Перегенерировать">Перегенерировать</button>
                     </div>
-                    <textarea class="ai-textarea">Здравствуйте! Благодарим вас за отзыв. Нам очень жаль, что заселение в наш отель доставило вам неудобства. Мы уже передали информацию руководству службы приема и размещения для проведения проверки качества сервиса. Надеемся вернуть ваше доверие.</textarea>
+                    <textarea class="ai-textarea" id="aiResponseText" readonly>Здравствуйте! Благодарим вас за отзыв. Нам очень жаль, что заселение в наш отель доставило вам неудобства. Мы уже передали информацию руководству службы приема и размещения для проведения проверки качества сервиса. Надеемся вернуть ваше доверие.</textarea>
                     
                     <div class="editor-actions">
                         <button class="action-btn secondary" data-en="Edit Manually" data-ru="Править вручную">Править вручную</button>
@@ -121,6 +130,6 @@
         </footer>
     </div>
 
-    <script src="logic.js"></script>
+    <script src="js/logic.js"></script>
 </body>
 </html>

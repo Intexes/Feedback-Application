@@ -17,11 +17,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const collapsePanelBtn = document.getElementById('collapsePanelBtn');
     const reviewsPanel = document.getElementById('reviewsPanel');
 
+    const editBtn = document.querySelector('.action-btn.secondary');
+    const aiTextArea = document.getElementById('aiResponseText');
+
+    const notepad = document.querySelector('.notepad-input');
+    const saveBtn = document.querySelector('.save-notes-btn');
+
     if (collapsePanelBtn && reviewsPanel) {
-        collapsePanelBtn.addEventListener('click', () => {
-            reviewsPanel.classList.toggle('collapsed');
-        });
-    }
+    collapsePanelBtn.addEventListener('click', () => {
+        reviewsPanel.classList.toggle('collapsed');
+        
+        // Меняем стрелочку в зависимости от состояния
+        if (reviewsPanel.classList.contains('collapsed')) {
+            collapsePanelBtn.textContent = '»'; // Развернуть
+        } else {
+            collapsePanelBtn.textContent = '«'; // Свернуть
+        }
+    });
+}
 
     // --- Инициализация состояний из localStorage ---
     let currentTheme = localStorage.getItem('app-theme') || 'dark';
@@ -33,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('app-theme', theme);
         
         if (logoImg) {
-            logoImg.src = (theme === 'light') ? 'all_styles/logo-black.png' : 'all_styles/logo-white.png';
+            logoImg.src = (theme === 'light') ? 'all_img/logo-black.png' : 'all_img/logo-white.png';
         }
 
         if (themeIcon) {
@@ -290,4 +303,26 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSlide(0);
         startTimer();
     }
+
+    if (editBtn) {
+    editBtn.addEventListener('click', () => {
+        if (aiTextArea && aiTextArea.hasAttribute('readonly')) {
+            aiTextArea.removeAttribute('readonly');
+            aiTextArea.focus();
+        }
+    });
+    }
+
+    // Загружаем заметку при старте страницы
+        if (notepad) {
+            notepad.value = localStorage.getItem('manager_notes') || '';
+        }
+
+    // Сохраняем по клику
+        if (saveBtn) {
+            saveBtn.addEventListener('click', () => {
+            localStorage.setItem('manager_notes', notepad.value);
+            alert('Заметки успешно сохранены локально!');
+            });
+}
 });
