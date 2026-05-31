@@ -41,7 +41,7 @@ class HotelCreate(BaseModel):
     id: str
     name: str
     address: Optional[str] = ""
-    sources_config: Optional[List[str]] = ["booking", "ostrovok", "manul", "google", "yandex"]
+    sources_config: Optional[List[str]] = ["TripAdvisor", "google", "yandex"]
 
 
 class ResponseUpdate(BaseModel):
@@ -175,7 +175,7 @@ async def parse_reviews(hotel_id: str, sources: Optional[List[str]] = None):
     return {
         "status": "success",
         "count": len(reviews),
-        "reviews": reviews[:10]  # Возвращаем первые 10 для примера
+        "reviews": reviews[:10]
     }
 
 
