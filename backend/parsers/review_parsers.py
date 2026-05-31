@@ -858,9 +858,6 @@ class ReviewParserService:
                     "tripadvisor": {"urls": ["https://www.tripadvisor.ru/..."], "limit": 50},
                     "google_maps": {"urls": ["https://www.google.com/maps/..."], "limit": 50},
                     "yandex_maps": {"urls": ["https://yandex.ru/maps/..."], "limit": 50},
-                    "booking.com": {"urls": ["https://www.booking.com/..."], "limit": 50},
-                    "ostrovok": {"urls": ["https://ostrovok.ru/..."], "limit": 50},
-                    "manul": {"urls": ["https://manul.ru/..."], "limit": 50}
                 }
             save_to_db: Сохранять ли в БД
             
